@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { videosAPI } from '../services/api';
-import VideoCard from '../Video/VideoCard';
+import VideoCard from '../components/Video/VideoCard';
 
 export default function HomePage() {
   const { selectedCountry } = useAuth();
