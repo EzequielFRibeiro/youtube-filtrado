@@ -141,6 +141,68 @@ youtube-filtrado/
 - `GET /api/countries` - Lista de países
 - `GET /api/countries/detect` - Detectar país por IP
 
+## Deploy no Coolify
+
+### Pré-requisitos
+- Coolify instalado e rodando
+- PostgreSQL configurado no Coolify
+
+### 1. Criar serviço PostgreSQL no Coolify
+- Adicione um novo serviço PostgreSQL
+- Nome: `youtube-filtrado-db`
+- Database: `youtube_filtrado`
+- User: `postgres`
+- Anote a senha gerada
+
+### 2. Deploy do Backend
+- Adicione um novo serviço Docker Compose
+- Conecte ao repositório GitHub
+- Build pack: `Dockerfile`
+- Dockerfile location: `backend/Dockerfile`
+- Port: `3001`
+- Variáveis de ambiente:
+  ```
+  PORT=3001
+  NODE_ENV=production
+  DB_HOST=youtube-filtrado-db
+  DB_PORT=5432
+  DB_NAME=youtube_filtrado
+  DB_USER=postgres
+  DB_PASSWORD=<senha-do-postgres>
+  JWT_SECRET=<gerar-chave-secreta>
+  JWT_EXPIRES_IN=7d
+  FRONTEND_URL=https://<seu-dominio>
+  ```
+
+### 3. Deploy do Frontend
+- Adicione um novo serviço Docker Compose
+- Conecte ao repositório GitHub
+- Build pack: `Dockerfile`
+- Dockerfile location: `frontend/Dockerfile`
+- Port: `80`
+
+### 4. Configurar Proxy Reverso
+No Coolify, configure o proxy reverso para redirecionar `/api` e `/uploads` para o backend.
+
+### 5. Rodar Migrações
+Acesse o container do backend e execute:
+```bash
+node src/config/migrate.js
+```
+
+## Deploy com Docker Compose (local)
+
+```bash
+# Copiar e configurar .env
+cp .env.example .env
+
+# Iniciar tudo
+docker-compose up -d
+
+# Rodar migrações
+docker-compose exec backend node src/config/migrate.js
+```
+
 ## Licença
 
 MIT

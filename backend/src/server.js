@@ -24,6 +24,9 @@ const io = new Server(httpServer, {
   }
 });
 
+// Trust proxy (Coolify/nginx)
+app.set('trust proxy', 1);
+
 // Middleware
 app.use(helmet());
 app.use(cors({
