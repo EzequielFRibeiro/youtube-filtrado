@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext';
-import { videosAPI, commentsAPI } from '../../services/api';
+import { useAuth } from '../context/AuthContext';
+import { videosAPI, commentsAPI } from '../services/api';
 import { format } from 'timeago.js';
 
 export default function WatchPage() {
